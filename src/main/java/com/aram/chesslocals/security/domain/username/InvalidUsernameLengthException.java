@@ -11,8 +11,8 @@ public final class InvalidUsernameLengthException extends InvalidUserDataExcepti
     }
 
     private static String message(int minLength, int maxLength) {
-        return format("Invalid username length. " +
-                      "Must be between %d and %d characters long", minLength, maxLength);
+        return format("Invalid username length. Must be between %d and %d characters long",
+                       minLength, maxLength);
     }
 
 }

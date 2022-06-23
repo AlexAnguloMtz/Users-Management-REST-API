@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ServerErrorExceptionHandler implements CustomExceptionHandler {
 
     @ExceptionHandler(NullPointerException.class)
-    ResponseEntity<ExceptionDto> handleEmptyRole(NullPointerException theException) {
+    ResponseEntity<ExceptionDto> handleNullPointerException(NullPointerException theException) {
         var exception = new RuntimeException(http500().getReasonPhrase());
         return mapToResponseEntity(exception, http500());
     }

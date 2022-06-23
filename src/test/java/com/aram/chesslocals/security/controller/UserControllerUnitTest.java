@@ -1,6 +1,7 @@
 package com.aram.chesslocals.security.controller;
 
 import com.aram.chesslocals.security.service.UserService;
+import com.aram.chesslocals.security.service.UsernameDoesNotExistException;
 import com.aram.chesslocals.security.service.dto.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 import static com.aram.chesslocals.security.common.UserTestData.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,10 +49,10 @@ class UserControllerUnitTest {
     }
 
     @Test
-    void givenUserExists_whenReceivesGetUserByIdRequest_thenReturnsUserAndHttpStatusOk() {
+    void givenUserExists_whenReceivesGetUserByUsernameRequest_thenReturnsUserAndHttpStatusOk() {
         String username = userDto.getUsername();
 
-        // Mock the service
+        // Mock the service It should return the requested user by username
         when(userService.loadUserDtoByUsername(username))
             .thenReturn(userDto);
 
@@ -60,6 +62,19 @@ class UserControllerUnitTest {
         // Assert we got HTTP 200 and assert we got the requested user
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(userDto);
+    }
+
+    @Test
+    void givenUserDoesNotExist_whenReceivesGetUserByUsernameRequest_thenThrowsRelatedException() {
+        String username = userDto.getUsername();
+
+        // Mock the service. It should throw a related exception because username does not exist
+        when(userService.loadUserDtoByUsername(username))
+                .thenThrow(UsernameDoesNotExistException.class);
+
+        // Assert we throw related exception
+        assertThrows(UsernameDoesNotExistException.class,
+                () -> userController.loadByUsername(username));
     }
 
 }

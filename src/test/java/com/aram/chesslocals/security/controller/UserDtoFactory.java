@@ -8,15 +8,6 @@ import static com.aram.chesslocals.security.common.UserTestData.*;
 
 public class UserDtoFactory {
 
-    private AtomicInteger VALID_USER_COUNTER = new AtomicInteger();
-
-    UserDto nextValidUserDto() {
-        return new UserDto(nextAvailableUsername(), VALID_PASSWORD, VALID_EMAIL);
-    }
-
-    String nextAvailableUsername() {
-        return VALID_USERNAME + VALID_USER_COUNTER.addAndGet(1);
-    }
 
     public UserDto withUsername(String username) {
         return new UserDto(username, VALID_PASSWORD, VALID_EMAIL);

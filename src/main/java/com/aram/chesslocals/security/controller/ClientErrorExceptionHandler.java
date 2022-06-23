@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 class ClientErrorExceptionHandler implements CustomExceptionHandler {
 
-    // When username already exists we return HTTP 409
+    // When requested username does not exist we return HTTP 404 'NotFound'
     @ExceptionHandler(UsernameDoesNotExistException.class)
     ResponseEntity<ExceptionDto> handleUsernameDoesNotExist(UsernameDoesNotExistException exception) {
         return mapToResponseEntity(exception, HttpStatus.NOT_FOUND);
     }
 
-    // When username already exists we return HTTP 409
+    // When attempting to create a new user with a username that already exists we return HTTP 409 'CONFLICT'
     @ExceptionHandler(UsernameAlreadyExistsException.class)
     ResponseEntity<ExceptionDto> handleUsernameAlreadyExists(UsernameAlreadyExistsException exception) {
         return mapToResponseEntity(exception, HttpStatus.CONFLICT);
     }
 
-    // When we receive a request to save a new user with invalid data, we return HTTP 422
+    // When we receive a request to save a new user with invalid data, we return HTTP 422 'UNPROCESSABLE_ENTITY'
     @ExceptionHandler(InvalidUserDataException.class)
     ResponseEntity<ExceptionDto> handleInvalidUserData(InvalidUserDataException exception) {
         return mapToResponseEntity(exception, HttpStatus.UNPROCESSABLE_ENTITY);

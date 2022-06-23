@@ -14,16 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.springframework.test.annotation.DirtiesContext.ClassMode;
 import static com.aram.chesslocals.security.common.UserTestData.VALID_USER_DTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+// Drop de database after each test, so that tests don't interfere with each other
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerIntegrationTest {
@@ -35,13 +39,10 @@ public class UserControllerIntegrationTest {
 
     private ObjectMapper objectMapper;
 
-    // We use a UserDtoFactory to create UserDtos with unique username and email
-    // for those tests that need it. It needs to be a static field to guarantee data uniqueness.
     private static UserDtoFactory DTO_FACTORY = new UserDtoFactory();
 
     private static String CREATE_USER_URL = "/api/v1/user/create";
     private static final String GET_USER_URL = "/api/v1/user/{username}";
-
 
     @BeforeEach
     void init() {
@@ -51,7 +52,7 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void givenValidUserData_whenCallingSaveUserEndpoint_thenReturnsUserDataAndHttpCreated() throws Exception {
-        String validJson = json(nextValidUser());
+        String validJson = json(validUserDto);
         post(CREATE_USER_URL, validJson)
                 .andExpect(status().isCreated())
                 .andExpect(content().json(validJson));
@@ -92,11 +93,9 @@ public class UserControllerIntegrationTest {
                 .andExpect(result -> assertExceptionClass(result, InvalidEmailException.class));
     }
 
-
-
     @Test
     public void givenUsernameAlreadyExists_whenCallingSaveUserEndpoint_thenReturnsHttpConflict() throws Exception {
-        UserDto userDto = nextValidUser();
+        UserDto userDto = validUserDto;
 
         String json = json(userDto);
 
@@ -133,7 +132,8 @@ public class UserControllerIntegrationTest {
     @Test
     public void givenGetUserByUsernameRequest_whenUserDoesNotExist_thenReturnsHttp404AndRelatedException() throws Exception {
          // Assemble the URL to GET the dummy user by username
-        String username = validUserDto.getUsername();
+        UserDto user = validUserDto;
+        String username = user.getUsername();
         String getUserByUsernameUrl = assembleGetUserByUsernameUrl(username);
 
         // Do a GET request to get the user by username.
@@ -159,10 +159,6 @@ public class UserControllerIntegrationTest {
 
     private String json(UserDto userDto) throws JsonProcessingException {
         return objectMapper.writeValueAsString(userDto);
-    }
-
-    private UserDto nextValidUser() {
-        return DTO_FACTORY.nextValidUserDto();
     }
 
     private void assertExceptionClass(MvcResult result, Class<? extends RuntimeException> expected) {
