@@ -12,11 +12,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Optional;
-
 import static com.aram.chesslocals.security.common.UserTestData.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,7 +52,7 @@ class UserControllerUnitTest {
         String username = userDto.getUsername();
 
         // Mock the service It should return the requested user by username
-        when(userService.loadUserDtoByUsername(username))
+        when(userService.findUserDtoByUsername(username))
             .thenReturn(userDto);
 
         // Get the Controller response
@@ -69,12 +68,18 @@ class UserControllerUnitTest {
         String username = userDto.getUsername();
 
         // Mock the service. It should throw a related exception because username does not exist
-        when(userService.loadUserDtoByUsername(username))
+        when(userService.findUserDtoByUsername(username))
                 .thenThrow(UsernameDoesNotExistException.class);
 
         // Assert we throw related exception
         assertThrows(UsernameDoesNotExistException.class,
                 () -> userController.loadByUsername(username));
+    }
+
+    @Test
+    void whenReceivesDeleteUserRequest_thenDeletesUserAndReturnsHttpOk() {
+        HttpStatus statusAfterDeleteUser = userController.delete(userDto.getUsername());
+        assertThat(statusAfterDeleteUser).isEqualTo(HttpStatus.OK);
     }
 
 }

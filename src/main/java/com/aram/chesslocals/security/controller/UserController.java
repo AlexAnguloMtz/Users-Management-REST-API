@@ -1,6 +1,5 @@
 package com.aram.chesslocals.security.controller;
 
-import com.aram.chesslocals.security.domain.User;
 import com.aram.chesslocals.security.service.UserService;
 import com.aram.chesslocals.security.service.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +29,13 @@ final class UserController {
 
     @GetMapping("/{username}")
     ResponseEntity<UserDto> loadByUsername(@PathVariable String username) {
-        UserDto userDto = userService.loadUserDtoByUsername(username);
+        UserDto userDto = userService.findUserDtoByUsername(username);
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/{username}")
+    public HttpStatus delete(@PathVariable String username) {
+        userService.delete(username);
+        return HttpStatus.OK;
+    }
 }

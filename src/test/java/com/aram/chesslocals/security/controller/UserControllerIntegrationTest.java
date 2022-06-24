@@ -20,9 +20,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode;
 import static com.aram.chesslocals.security.common.UserTestData.VALID_USER_DTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,10 +41,12 @@ public class UserControllerIntegrationTest {
 
     private ObjectMapper objectMapper;
 
-    private static UserDtoFactory DTO_FACTORY = new UserDtoFactory();
+    private static final UserDtoFactory DTO_FACTORY = new UserDtoFactory();
 
-    private static String CREATE_USER_URL = "/api/v1/user/create";
+    private static final String CREATE_USER_URL = "/api/v1/user/create";
     private static final String GET_USER_URL = "/api/v1/user/{username}";
+    private static final String DELETE_USER_URL = "/api/v1/user/delete/{username}";
+
 
     @BeforeEach
     void init() {
@@ -53,7 +57,7 @@ public class UserControllerIntegrationTest {
     @Test
     public void givenValidUserData_whenCallingSaveUserEndpoint_thenReturnsUserDataAndHttpCreated() throws Exception {
         String validJson = json(validUserDto);
-        post(CREATE_USER_URL, validJson)
+        doPost(CREATE_USER_URL, validJson)
                 .andExpect(status().isCreated())
                 .andExpect(content().json(validJson));
     }
@@ -64,7 +68,7 @@ public class UserControllerIntegrationTest {
         UserDto dtoWithInvalidUsername = DTO_FACTORY.withUsername(invalidUsername);
         String jsonWithInvalidUsername = json(dtoWithInvalidUsername);
 
-        post(CREATE_USER_URL, jsonWithInvalidUsername)
+        doPost(CREATE_USER_URL, jsonWithInvalidUsername)
                  .andExpect(status().isUnprocessableEntity())
                  .andExpect(result -> assertExceptionClass(result, InvalidUsernameLengthException.class));
 
@@ -76,7 +80,7 @@ public class UserControllerIntegrationTest {
         UserDto dtoWithInvalidPassword = DTO_FACTORY.withPassword(invalidPassword);
         String jsonWithInvalidPassword = json(dtoWithInvalidPassword);
 
-        post(CREATE_USER_URL, jsonWithInvalidPassword)
+        doPost(CREATE_USER_URL, jsonWithInvalidPassword)
                   .andExpect(status().isUnprocessableEntity())
                   .andExpect(result -> assertExceptionClass(result, PasswordFormatException.class));
 
@@ -88,7 +92,7 @@ public class UserControllerIntegrationTest {
         UserDto dtoWithInvalidEmail = DTO_FACTORY.withEmail(invalidEmail);
         String jsonWithInvalidEmail = json(dtoWithInvalidEmail);
 
-        post(CREATE_USER_URL, jsonWithInvalidEmail)
+        doPost(CREATE_USER_URL, jsonWithInvalidEmail)
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(result -> assertExceptionClass(result, InvalidEmailException.class));
     }
@@ -100,11 +104,11 @@ public class UserControllerIntegrationTest {
         String json = json(userDto);
 
         // Save user for the first time
-        post(CREATE_USER_URL, json);
+        doPost(CREATE_USER_URL, json);
 
         // Attempt to save user with the same username for the second time.
         // Must throw an UsernameAlreadyExistsException and return Http 409 because username already exists
-        post(CREATE_USER_URL, json)
+        doPost(CREATE_USER_URL, json)
                  .andExpect(status().isConflict())
                  .andExpect(result -> assertExceptionClass(result, UsernameAlreadyExistsException.class));
     }
@@ -113,7 +117,7 @@ public class UserControllerIntegrationTest {
     public void givenGetUserByUsernameRequest_whenUserExists_thenReturnsResponseWithHttpOKAndRequestedUser() throws Exception {
         // Save the dummy user with a POST request
         String userJson = json(validUserDto);
-        post(CREATE_USER_URL, userJson);
+        doPost(CREATE_USER_URL, userJson);
 
         // Assemble the URL to GET the dummy user by username
         String username = validUserDto.getUsername();
@@ -123,7 +127,7 @@ public class UserControllerIntegrationTest {
         // Assert HTTP 200
         // Assert content type equals Json
         // Assert json in response matches our dummy user
-        get(getUserByUsernameUrl)
+        doGet(getUserByUsernameUrl)
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(userJson));
@@ -140,19 +144,47 @@ public class UserControllerIntegrationTest {
         // This should fail because user does not exist yet in the repository.
         // Assert HTTP 404
         // Assert Exception class is related to this scenario
-        get(getUserByUsernameUrl)
+        doGet(getUserByUsernameUrl)
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertExceptionClass(result, UsernameDoesNotExistException.class));
     }
 
-    private ResultActions get(String url) throws Exception {
-        return this.mockMvc.perform(MockMvcRequestBuilders.get(url)
+    @Test
+    public void givenUserExists_whenReceivesDeleteUserRequest_thenUserIsDeletedAndReturnsHttpOk() throws Exception {
+        // First, save the user with a POST
+        String userJson = json(validUserDto);
+        doPost(CREATE_USER_URL, userJson);
+
+        // Assemble delete user url
+        String username = validUserDto.getUsername();
+        String deleteUserUrl = assembleDeleteUrl(username);
+
+        // Perform DELETE request
+        // Assert http 200
+        this.mockMvc.perform(delete(deleteUserUrl))
+                .andExpect(status().isOk());
+
+        // Attempt to GET the user. This must fail because the user should no longer exist
+        // Assert Http 404
+        // Assert related exception is thrown
+        String getUserUrl = assembleGetUserByUsernameUrl(username);
+        doGet(getUserUrl)
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertExceptionClass(result, UsernameDoesNotExistException.class));
+    }
+
+    private String assembleDeleteUrl(String username) {
+        return DELETE_USER_URL.replace("{username}", username);
+    }
+
+    private ResultActions doGet(String url) throws Exception {
+        return this.mockMvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON));
     }
 
 
-    private ResultActions post(String path, String json) throws Exception {
-        return this.mockMvc.perform(MockMvcRequestBuilders.post(path)
+    private ResultActions doPost(String path, String json) throws Exception {
+        return this.mockMvc.perform(post(path)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json));
     }

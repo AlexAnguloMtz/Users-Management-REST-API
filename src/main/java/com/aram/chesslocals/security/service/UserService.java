@@ -4,15 +4,14 @@ import com.aram.chesslocals.security.domain.User;
 import com.aram.chesslocals.security.domain.UserRepository;
 import com.aram.chesslocals.security.service.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.beans.Transient;
 import java.util.Optional;
 
 @Service
-public final class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -32,9 +31,10 @@ public final class UserService implements UserDetailsService {
         return mapToDto(savedUser);
     }
 
-    private boolean alreadyExists(User aUser) {
-        Optional<User> user = findByUsername(aUser.getUsername());
-        return user.isPresent();
+    private boolean alreadyExists(User user) {
+        String username = user.getUsername();
+        Optional<User> userOptional = userRepository.findByUsernameUsername(username);
+        return userOptional.isPresent();
     }
 
     private UserDto mapToDto(User user) {
@@ -45,18 +45,19 @@ public final class UserService implements UserDetailsService {
         return userMapper.mapToRegularUser(userDto);
     }
 
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsernameUsername(username);
+    public UserDto findUserDtoByUsername(String username) {
+        User user = findByUsername(username);
+        return mapToDto(user);
     }
 
-    public UserDto loadUserDtoByUsername(String username) {
-        Optional<User> userOptional = findByUsername(username);
-        User foundUser = userOptional.orElseThrow(UsernameDoesNotExistException::new);
-        return mapToDto(foundUser);
+    User findByUsername(String username) {
+        Optional<User> userOptional = userRepository.findByUsernameUsername(username);
+        return userOptional.orElseThrow(UsernameDoesNotExistException::new);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+    @Transactional
+    public void delete(String username) {
+        userRepository.deleteByUsernameUsername(username);
     }
+
 }
