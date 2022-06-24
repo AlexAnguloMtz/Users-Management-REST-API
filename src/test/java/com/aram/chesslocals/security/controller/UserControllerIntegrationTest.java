@@ -173,6 +173,18 @@ public class UserControllerIntegrationTest {
                 .andExpect(result -> assertExceptionClass(result, UsernameDoesNotExistException.class));
     }
 
+    @Test
+    public void givenUserDoesNotExist_whenReceivesDeleteUserRequest_thenReturnsHttpOk() throws Exception {
+        // Assemble delete user url
+        String username = validUserDto.getUsername();
+        String deleteUserUrl = assembleDeleteUrl(username);
+
+        // Perform DELETE request
+        // Assert http 200
+        this.mockMvc.perform(delete(deleteUserUrl))
+                .andExpect(status().isOk());
+    }
+
     private String assembleDeleteUrl(String username) {
         return DELETE_USER_URL.replace("{username}", username);
     }
