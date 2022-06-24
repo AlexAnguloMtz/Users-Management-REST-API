@@ -22,6 +22,7 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
+    @Transactional
     public UserDto save(UserDto userdto) {
         User user = mapToRegularUser(userdto);
         if(alreadyExists(user)) {
@@ -31,10 +32,27 @@ public class UserService {
         return mapToDto(savedUser);
     }
 
+    @Transactional
     private boolean alreadyExists(User user) {
         String username = user.getUsername();
         Optional<User> userOptional = userRepository.findByUsernameUsername(username);
         return userOptional.isPresent();
+    }
+
+    @Transactional
+    User findByUsername(String username) {
+        Optional<User> userOptional = userRepository.findByUsernameUsername(username);
+        return userOptional.orElseThrow(UsernameDoesNotExistException::new);
+    }
+
+    @Transactional
+    public void delete(String username) {
+        userRepository.deleteByUsernameUsername(username);
+    }
+
+    public UserDto findUserDtoByUsername(String username) {
+        User user = findByUsername(username);
+        return mapToDto(user);
     }
 
     private UserDto mapToDto(User user) {
@@ -45,19 +63,5 @@ public class UserService {
         return userMapper.mapToRegularUser(userDto);
     }
 
-    public UserDto findUserDtoByUsername(String username) {
-        User user = findByUsername(username);
-        return mapToDto(user);
-    }
-
-    User findByUsername(String username) {
-        Optional<User> userOptional = userRepository.findByUsernameUsername(username);
-        return userOptional.orElseThrow(UsernameDoesNotExistException::new);
-    }
-
-    @Transactional
-    public void delete(String username) {
-        userRepository.deleteByUsernameUsername(username);
-    }
 
 }
