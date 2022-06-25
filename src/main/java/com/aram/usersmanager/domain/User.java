@@ -1,8 +1,8 @@
-package com.aram.chesslocals.security.domain;
+package com.aram.usersmanager.domain;
 
-import com.aram.chesslocals.security.domain.email.Email;
-import com.aram.chesslocals.security.domain.password.Password;
-import com.aram.chesslocals.security.domain.username.Username;
+import com.aram.usersmanager.domain.email.Email;
+import com.aram.usersmanager.domain.username.Username;
+import com.aram.usersmanager.domain.password.Password;
 import lombok.*;
 
 import javax.persistence.*;

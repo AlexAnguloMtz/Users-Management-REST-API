@@ -1,7 +1,7 @@
-package com.aram.chesslocals.security.service;
+package com.aram.usersmanager.service;
 
-import com.aram.chesslocals.security.domain.SecurityUser;
-import com.aram.chesslocals.security.domain.User;
+import com.aram.usersmanager.domain.SecurityUser;
+import com.aram.usersmanager.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

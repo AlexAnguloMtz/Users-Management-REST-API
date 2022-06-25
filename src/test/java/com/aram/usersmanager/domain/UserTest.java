@@ -1,15 +1,12 @@
-package com.aram.chesslocals.security.domain;
+package com.aram.usersmanager.domain;
 
-import com.aram.chesslocals.security.domain.email.InvalidEmailException;
-import com.aram.chesslocals.security.domain.password.PasswordFormatException;
-import com.aram.chesslocals.security.domain.username.InvalidCharactersInUsernameException;
-import com.aram.chesslocals.security.domain.username.InvalidUsernameLengthException;
+import com.aram.usersmanager.domain.email.InvalidEmailException;
+import com.aram.usersmanager.domain.password.PasswordFormatException;
+import com.aram.usersmanager.domain.username.InvalidCharactersInUsernameException;
+import com.aram.usersmanager.domain.username.InvalidUsernameLengthException;
 import org.junit.jupiter.api.Test;
 
-import static com.aram.chesslocals.security.common.UserTestData.VALID_ROLE;
-import static com.aram.chesslocals.security.common.UserTestData.VALID_EMAIL;
-import static com.aram.chesslocals.security.common.UserTestData.VALID_PASSWORD;
-import static com.aram.chesslocals.security.common.UserTestData.VALID_USERNAME;
+import static com.aram.usersmanager.common.UserTestData.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final class UserTest {

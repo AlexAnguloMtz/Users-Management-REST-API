@@ -1,6 +1,6 @@
-package com.aram.chesslocals.security.domain.password;
+package com.aram.usersmanager.domain.password;
 
-import com.aram.chesslocals.security.domain.InvalidUserDataException;
+import com.aram.usersmanager.domain.InvalidUserDataException;
 
 public final class PasswordFormatException extends InvalidUserDataException {
 

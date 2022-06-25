@@ -1,4 +1,4 @@
-package com.aram.chesslocals.security.service;
+package com.aram.usersmanager.service;
 
 import static java.lang.String.format;
 

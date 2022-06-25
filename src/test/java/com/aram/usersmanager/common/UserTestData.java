@@ -1,8 +1,8 @@
-package com.aram.chesslocals.security.common;
+package com.aram.usersmanager.common;
 
-import com.aram.chesslocals.security.domain.Role;
-import com.aram.chesslocals.security.domain.User;
-import com.aram.chesslocals.security.service.dto.UserDto;
+import com.aram.usersmanager.domain.Role;
+import com.aram.usersmanager.domain.User;
+import com.aram.usersmanager.service.dto.UserDto;
 
 public abstract class UserTestData {
 

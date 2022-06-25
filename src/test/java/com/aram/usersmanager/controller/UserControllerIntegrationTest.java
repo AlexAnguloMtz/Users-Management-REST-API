@@ -1,11 +1,11 @@
-package com.aram.chesslocals.security.controller;
+package com.aram.usersmanager.controller;
 
-import com.aram.chesslocals.security.domain.email.InvalidEmailException;
-import com.aram.chesslocals.security.domain.password.PasswordFormatException;
-import com.aram.chesslocals.security.domain.username.InvalidUsernameLengthException;
-import com.aram.chesslocals.security.service.UsernameAlreadyExistsException;
-import com.aram.chesslocals.security.service.UsernameDoesNotExistException;
-import com.aram.chesslocals.security.service.dto.UserDto;
+import com.aram.usersmanager.domain.email.InvalidEmailException;
+import com.aram.usersmanager.domain.password.PasswordFormatException;
+import com.aram.usersmanager.domain.username.InvalidUsernameLengthException;
+import com.aram.usersmanager.service.UsernameAlreadyExistsException;
+import com.aram.usersmanager.service.UsernameDoesNotExistException;
+import com.aram.usersmanager.service.dto.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,12 +18,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.annotation.DirtiesContext.ClassMode;
-import static com.aram.chesslocals.security.common.UserTestData.VALID_USER_DTO;
+import static com.aram.usersmanager.common.UserTestData.VALID_USER_DTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.annotation.DirtiesContext.ClassMode;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

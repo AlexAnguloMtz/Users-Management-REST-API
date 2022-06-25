@@ -1,4 +1,4 @@
-package com.aram.chesslocals.security.infrastructure.configuration;
+package com.aram.usersmanager.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

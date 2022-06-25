@@ -1,12 +1,13 @@
-package com.aram.chesslocals.security.service;
+package com.aram.usersmanager.service;
 
-import com.aram.chesslocals.security.domain.Role;
-import com.aram.chesslocals.security.domain.User;
-import com.aram.chesslocals.security.service.dto.UserDto;
+import com.aram.usersmanager.domain.Role;
+import com.aram.usersmanager.domain.User;
+import com.aram.usersmanager.service.UserMapper;
+import com.aram.usersmanager.service.dto.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.aram.chesslocals.security.common.UserTestData.VALID_USER_DTO;
+import static com.aram.usersmanager.common.UserTestData.VALID_USER_DTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserMapperTest {

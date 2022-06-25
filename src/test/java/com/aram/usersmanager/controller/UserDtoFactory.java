@@ -1,10 +1,8 @@
-package com.aram.chesslocals.security.controller;
+package com.aram.usersmanager.controller;
 
-import com.aram.chesslocals.security.service.dto.UserDto;
+import com.aram.usersmanager.service.dto.UserDto;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static com.aram.chesslocals.security.common.UserTestData.*;
+import static com.aram.usersmanager.common.UserTestData.*;
 
 public class UserDtoFactory {
 

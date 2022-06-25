@@ -1,9 +1,8 @@
-package com.aram.chesslocals.security.domain.username;
+package com.aram.usersmanager.domain.username;
 
 import lombok.*;
 
 import javax.persistence.Embeddable;
-import java.util.Objects;
 
 @Embeddable
 @EqualsAndHashCode

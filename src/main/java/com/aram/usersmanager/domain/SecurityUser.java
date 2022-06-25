@@ -1,4 +1,4 @@
-package com.aram.chesslocals.security.domain;
+package com.aram.usersmanager.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

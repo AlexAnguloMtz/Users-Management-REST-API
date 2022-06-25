@@ -1,14 +1,12 @@
-package com.aram.chesslocals.security.domain;
+package com.aram.usersmanager.domain;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.util.Collection;
 
-import static com.aram.chesslocals.security.common.UserTestData.VALID_ROLE;
-import static com.aram.chesslocals.security.common.UserTestData.VALID_EMAIL;
-import static com.aram.chesslocals.security.common.UserTestData.VALID_USERNAME;
-import static com.aram.chesslocals.security.common.UserTestData.VALID_PASSWORD;
+import static com.aram.usersmanager.common.UserTestData.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

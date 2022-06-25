@@ -1,8 +1,8 @@
-package com.aram.chesslocals.security.controller;
+package com.aram.usersmanager.controller;
 
-import com.aram.chesslocals.security.service.UserService;
-import com.aram.chesslocals.security.service.UsernameDoesNotExistException;
-import com.aram.chesslocals.security.service.dto.UserDto;
+import com.aram.usersmanager.service.UserService;
+import com.aram.usersmanager.service.UsernameDoesNotExistException;
+import com.aram.usersmanager.service.dto.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,10 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static com.aram.chesslocals.security.common.UserTestData.*;
+import static com.aram.usersmanager.common.UserTestData.VALID_USER_DTO;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

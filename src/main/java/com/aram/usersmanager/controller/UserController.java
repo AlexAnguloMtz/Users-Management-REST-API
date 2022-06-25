@@ -1,13 +1,11 @@
-package com.aram.chesslocals.security.controller;
+package com.aram.usersmanager.controller;
 
-import com.aram.chesslocals.security.service.UserService;
-import com.aram.chesslocals.security.service.dto.UserDto;
+import com.aram.usersmanager.service.UserService;
+import com.aram.usersmanager.service.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping("api/v1/user")

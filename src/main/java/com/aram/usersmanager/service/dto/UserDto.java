@@ -1,4 +1,4 @@
-package com.aram.chesslocals.security.service.dto;
+package com.aram.usersmanager.service.dto;
 
 import lombok.Data;
 

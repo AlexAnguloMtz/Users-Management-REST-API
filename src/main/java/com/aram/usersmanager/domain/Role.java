@@ -1,4 +1,4 @@
-package com.aram.chesslocals.security.domain;
+package com.aram.usersmanager.domain;
 
 import static java.util.Objects.requireNonNull;
 

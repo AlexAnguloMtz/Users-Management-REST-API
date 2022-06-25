@@ -1,4 +1,4 @@
-package com.aram.chesslocals.security.service;
+package com.aram.usersmanager.service;
 
 public class UsernameDoesNotExistException extends RuntimeException {
     UsernameDoesNotExistException() {

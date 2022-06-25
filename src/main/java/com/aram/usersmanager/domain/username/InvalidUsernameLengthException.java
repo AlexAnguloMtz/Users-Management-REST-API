@@ -1,6 +1,6 @@
-package com.aram.chesslocals.security.domain.username;
+package com.aram.usersmanager.domain.username;
 
-import com.aram.chesslocals.security.domain.InvalidUserDataException;
+import com.aram.usersmanager.domain.InvalidUserDataException;
 
 import static java.lang.String.format;
 

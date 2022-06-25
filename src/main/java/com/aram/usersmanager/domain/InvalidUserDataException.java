@@ -1,4 +1,4 @@
-package com.aram.chesslocals.security.domain;
+package com.aram.usersmanager.domain;
 
 public abstract class InvalidUserDataException extends RuntimeException {
 

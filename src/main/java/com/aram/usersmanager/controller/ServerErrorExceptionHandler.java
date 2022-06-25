@@ -1,6 +1,6 @@
-package com.aram.chesslocals.security.controller;
+package com.aram.usersmanager.controller;
 
-import com.aram.chesslocals.security.service.dto.ExceptionDto;
+import com.aram.usersmanager.service.dto.ExceptionDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

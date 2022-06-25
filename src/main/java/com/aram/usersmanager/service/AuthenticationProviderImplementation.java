@@ -1,4 +1,4 @@
-package com.aram.chesslocals.security.service;
+package com.aram.usersmanager.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;

@@ -1,4 +1,4 @@
-package com.aram.chesslocals;
+package com.aram.usersmanager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

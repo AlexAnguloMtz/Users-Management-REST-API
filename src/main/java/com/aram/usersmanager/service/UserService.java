@@ -1,13 +1,12 @@
-package com.aram.chesslocals.security.service;
+package com.aram.usersmanager.service;
 
-import com.aram.chesslocals.security.domain.User;
-import com.aram.chesslocals.security.domain.UserRepository;
-import com.aram.chesslocals.security.service.dto.UserDto;
+import com.aram.usersmanager.domain.User;
+import com.aram.usersmanager.domain.UserRepository;
+import com.aram.usersmanager.service.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.beans.Transient;
 import java.util.Optional;
 
 @Service
